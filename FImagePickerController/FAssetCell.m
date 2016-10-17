@@ -97,6 +97,7 @@
 }
 
 - (void)selectedPhotoButtonClick:(UIButton *)button {
+  
     button.selected = !button.isSelected;
     if (self.didSelectedPhotoBlock) self.didSelectedPhotoBlock(button.isSelected,button);
 }

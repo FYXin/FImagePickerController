@@ -208,6 +208,56 @@
 //点击完成按钮
 - (void)okButtonClick {
     NSLog(@"完成");
+    FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
+    
+    
+    NSMutableArray *photos = [NSMutableArray array];
+    NSMutableArray *assets = [NSMutableArray array];
+    NSMutableArray *infoArr = [NSMutableArray array];
+    
+    for (NSInteger i = 0; i < FImagePickerVC.selectedAssetModels.count; i++) {
+        [photos addObject:@1];
+        [assets addObject:@1];
+        [infoArr addObject:@1];
+    }
+    
+    
+    for (NSInteger i = 0; i < FImagePickerVC.selectedAssetModels.count; i++) {
+        
+        FAssetModel *model = FImagePickerVC.selectedAssetModels[i];
+        [[FImageManager manager] getPhotoWithAsset:model.asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+            if (isDegraded) return ;
+            if (photo) {
+                [photos replaceObjectAtIndex:i withObject:photo];
+            }
+            
+            if (info) {
+                [infoArr replaceObjectAtIndex:i withObject:info];
+                [assets replaceObjectAtIndex:i withObject:model.asset];
+            }
+            
+            for (id item in photos) {
+                if ([item isKindOfClass:[NSNumber class]]) {
+                    return;
+                }
+            }
+            
+            
+            if ([FImagePickerVC.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingPhotos:sourceAssets:)]) {
+                [FImagePickerVC.pickerDelegate imagePickerController:FImagePickerVC didFinishPickingPhotos:photos sourceAssets:assets];
+                
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                return;
+            }
+            
+            if ([FImagePickerVC.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingPhotos:sourceAssets: isSelectOriginalPhoto:infos:)]) {
+                [FImagePickerVC.pickerDelegate imagePickerController:FImagePickerVC didFinishPickingPhotos:photos sourceAssets:assets isSelectOriginalPhoto:FImagePickerVC.isSelectOriginalPhoto infos:infoArr];
+                
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                return;
+            }
+        }];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource && Delegate
@@ -222,7 +272,7 @@
     FAssetModel *model = _assetModels[indexPath.row];
     cell.assetModel = model;
     __weak typeof(self) weakSelf = self;
- //   __weak typeof(cell) weakCell = cell;
+
     
     cell.didSelectedPhotoBlock = ^(BOOL isSelected,UIButton *selectedButton){
         [weakSelf changeSelectedButton:selectedButton WithModel:model];
@@ -251,7 +301,9 @@
             [self refreshBottomToolBar];
         } else {
             NSString *title = [NSString stringWithFormat:@"最多允许选择%zd张照片",FImagePickerVC.maxImagesCount];
+            button.selected = NO;
             [self showAlertWithTitle:title];
+            return;
         }
     } else {
         NSInteger index = model.selectedIndex;
@@ -306,6 +358,16 @@
 }
 
 - (void)showAlertWithTitle:(NSString *)title {
+    if (iOS8Later) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:title preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:action];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:title delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }
 
 }
 @end

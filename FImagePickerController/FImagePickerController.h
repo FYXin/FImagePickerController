@@ -61,6 +61,9 @@
 
 @protocol FImagePickerControllerDelegate <NSObject>
 
+- (void)imagePickerController:(FImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets;
+
+- (void)imagePickerController:(FImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectedOriginalPhoto infos:(NSArray<NSDictionary *>*)infos;
 
 
 @end

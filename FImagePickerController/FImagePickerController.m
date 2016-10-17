@@ -15,6 +15,10 @@
 
 @interface FImagePickerController ()
 {
+    UILabel *_tipLabel;
+    UIButton *_settingButton;
+    NSTimer *_timer;
+    
     UIButton *_progressHUD;
     UIView *_HUDContainer;
     UIActivityIndicatorView *_HUDIndicatorView;
@@ -102,8 +106,38 @@
         self.sortAsendingByModificationDate = YES;
         self.autoDismiss = YES;
         
-        
         self.columnNumber = columnNumber;
+        
+        if ([[FImageManager manager] authorzationStatusAuthorized]) {
+            [self pushToPhotoPickerVC];
+        } else {
+        // 没有相册的访问权限 或者 还未 授权
+            UILabel *tipLabel = [[UILabel alloc] init];
+            tipLabel.frame = CGRectMake(8, 120, self.view.width-16, 60);
+            tipLabel.textAlignment = NSTextAlignmentCenter;
+            tipLabel.numberOfLines = 0;
+            tipLabel.font = [UIFont systemFontOfSize:16];
+            tipLabel.textColor = [UIColor blackColor];
+            NSString *appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleDisplayName"];
+            if (!appName) {
+                appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleName"];
+            }
+            NSString *tipText = [NSString stringWithFormat:@"允许%@访问你的相册 在设置-> 隐私 -> 照片  中设置",appName];
+            tipLabel.text = tipText;
+            _tipLabel = tipLabel;
+            [self.view addSubview:tipLabel];
+            
+            UIButton *settingButton = [[UIButton alloc] init];
+            settingButton.frame = CGRectMake(0, 180, self.view.width, 44);
+            settingButton.titleLabel.font = [UIFont systemFontOfSize:16];
+            [settingButton setTitle:@"设置" forState:UIControlStateNormal];
+            [settingButton addTarget:self action:@selector(settingButtonClick) forControlEvents:UIControlEventTouchUpInside];
+            _settingButton = settingButton;
+            [self.view addSubview:settingButton];
+            
+            NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(observeAuthrizationStatusChange) userInfo:nil repeats:YES];
+            _timer = timer;
+        }
         
     }
     
@@ -118,9 +152,33 @@
     }
 }
 
+- (void)settingButtonClick {
+    if (iOS8Later) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"]];
+    }
+}
 
+- (void)observeAuthrizationStatusChange {
+    if ([[FImageManager manager] authorzationStatusAuthorized]) {
+        [self pushToPhotoPickerVC];
+        [_tipLabel removeFromSuperview];
+        [_settingButton removeFromSuperview];
+        [_timer invalidate];
+        _timer = nil;
+    }
+}
+
+//相机胶卷这个相册
 - (void)pushToPhotoPickerVC {
-
+    FPhotoPickerController *photoPickerVC = [[FPhotoPickerController alloc] init];
+    photoPickerVC.columnNumber = self.columnNumber;
+    
+    [[FImageManager manager] getCameraRollAlbum:YES allowPickingImage:YES completion:^(FAlbumModel *model) {
+        photoPickerVC.albumModel = model;
+        [self pushViewController:photoPickerVC animated:YES];
+    }];
 }
 
 @end
