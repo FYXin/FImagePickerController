@@ -30,7 +30,7 @@
 // 最大可选照片数 ，默认为9
 @property (nonatomic,assign) NSInteger maxImagesCount;
 
-//是否按修改时间升序排列，默认为YES，最新的照片在最后面
+//是否按修改时间升序排列，默认为YES，最新的照片在最后面，拍照按钮也在最后面
 @property (nonatomic,assign) BOOL sortAsendingByModificationDate;
 
 //是否允许选择原图

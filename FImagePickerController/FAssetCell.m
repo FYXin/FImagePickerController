@@ -59,6 +59,12 @@
     _selectPhotoButton = selectedButton;
 }
 
+
+- (void)setTakePhotoImage:(UIImage *)image {
+    _imageView.image = image;
+    _selectPhotoButton.hidden = YES;
+}
+
 - (void)setAssetModel:(FAssetModel *)assetModel {
     _assetModel = assetModel;
     [self cinfigSelectedButton];
@@ -87,6 +93,7 @@
 
 
 - (void)cinfigSelectedButton {
+    _selectPhotoButton.hidden = NO;
     if (_assetModel.isSeledted && _assetModel.selectedIndex > 0) {
         [_selectPhotoButton setTitle:[NSString stringWithFormat:@"%zd",_assetModel.selectedIndex] forState:UIControlStateNormal];
         _selectPhotoButton.backgroundColor = [UIColor colorWithRed:46/255.0 green:178/255.0 blue:242/255.0 alpha:1];

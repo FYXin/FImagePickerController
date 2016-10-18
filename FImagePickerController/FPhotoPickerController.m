@@ -15,22 +15,38 @@
 #import "FImageManager.h"
 #import "FImagePickerConfig.h"
 
-@interface FPhotoPickerController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface FPhotoPickerController ()<UICollectionViewDelegate,UICollectionViewDataSource,UIImagePickerControllerDelegate>
 {
     UIButton *_previewButton;           //预览按钮
     UIButton *_originalPhotoButton;     //原图按钮
     UILabel  *_originalPhotoLabel;
     
     UIButton    *_okButton;
+    
+    BOOL _shouldTakePhoto;
 }
 //是否选择原图
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) NSMutableArray *assetModels;
-@property (nonatomic,strong) UIImagePickerController *imagePickerVC;
 
+//系统相机
+@property (nonatomic,strong) UIImagePickerController *imagePickerVC;
 @end
 
 @implementation FPhotoPickerController
+- (UIImagePickerController *)imagePickerVC {
+    if (_imagePickerVC == nil) {
+        _imagePickerVC = [[UIImagePickerController alloc] init];
+        _imagePickerVC.delegate = self;
+        _imagePickerVC.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
+        _imagePickerVC.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
+    
+    
+    
+    }
+    return _imagePickerVC;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [_collectionView reloadData];
@@ -262,12 +278,29 @@
 
 #pragma mark - UICollectionViewDataSource && Delegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
+    FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
+    if(FImagePickerVC.allowTakePhoto) {
+        return _assetModels.count + 1;
+    }
     return _assetModels.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    /*
+     当有了拍照这个按钮之后需要考虑 拍照按钮是出现在第一个位置 还是最后一个位置 并且在选择cell的代理方法进行处理的时候也要做出区分
+     */
+    
     FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
+   
+    if (FImagePickerVC.sortAsendingByModificationDate && FImagePickerVC.allowTakePhoto && indexPath.row >= _assetModels.count) {
+        FAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FAssetCell" forIndexPath:indexPath];
+        [cell setTakePhotoImage:[UIImage imageNamed:@"takePicture"]];
+        
+        return cell;
+        
+    }
+    
     FAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FAssetCell" forIndexPath:indexPath];
     FAssetModel *model = _assetModels[indexPath.row];
     cell.assetModel = model;
@@ -281,7 +314,14 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-  //  FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
+    FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
+    
+    if (FImagePickerVC.sortAsendingByModificationDate && FImagePickerVC.allowTakePhoto && indexPath.row >= _assetModels.count) {
+       // 点击了拍照按钮
+        NSLog(@"拍照");
+        [self takePhoto];
+        return;
+    }
     FImagePreviewController *imagePreviewVC = [[FImagePreviewController alloc] init];
     imagePreviewVC.currentIndex = indexPath.row;
     imagePreviewVC.models = _assetModels;
@@ -368,6 +408,37 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:title delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
     }
-
 }
+
+
+- (void)takePhoto {
+    UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypeCamera;
+    if ([UIImagePickerController isSourceTypeAvailable:type]) {
+        self.imagePickerVC.sourceType = type;
+        if (iOS8Later) {
+            _imagePickerVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        }
+        [self presentViewController:_imagePickerVC animated:YES completion:nil];
+    }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    if ([type isEqualToString:@"public.image"]) {
+        FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
+        
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [[FImageManager manager] savePhotoWithImage:image completion:^(NSError *error) {
+            
+        }];
+    }
+}
+
 @end

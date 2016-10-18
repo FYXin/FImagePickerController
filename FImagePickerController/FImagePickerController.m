@@ -98,20 +98,26 @@
         self.pickerDelegate = delegate;
         
         //默认的初始化配置
-        self.allowPickingOriginalPhoto = YES;
-        self.allowPickingImage = YES;
-        self.allowPickingVideo = YES;
-        self.allowTakePhoto = YES;
         
+        //是否允许选择原图
+        self.allowPickingOriginalPhoto = YES;
+        //是否允许选择照片
+        self.allowPickingImage = YES;
+        //是否允许选择视频
+        self.allowPickingVideo = YES;
+        //是否允许拍照
+        self.allowTakePhoto = YES;
+        //默认升序排列
         self.sortAsendingByModificationDate = YES;
         self.autoDismiss = YES;
         
+        //每行的照片数量
         self.columnNumber = columnNumber;
         
         if ([[FImageManager manager] authorzationStatusAuthorized]) {
             [self pushToPhotoPickerVC];
         } else {
-        // 没有相册的访问权限 或者 还未 授权
+        // 没有相册的访问权限 或者 还未 授权（提示用户进行相关设置）
             UILabel *tipLabel = [[UILabel alloc] init];
             tipLabel.frame = CGRectMake(8, 120, self.view.width-16, 60);
             tipLabel.textAlignment = NSTextAlignmentCenter;

@@ -27,6 +27,8 @@ typedef  NS_ENUM(NSUInteger,FAssetCellMediaType) {
 
 @property (nonatomic,copy) void (^didSelectedPhotoBlock)(BOOL,UIButton *);
 
+- (void)setTakePhotoImage:(UIImage *)image;
+
 @end
 
 @class FAlbumModel;

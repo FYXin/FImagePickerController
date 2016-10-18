@@ -24,6 +24,8 @@
 		1849235A1D93C29A00AB5277 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 184923591D93C29A00AB5277 /* 1.jpg */; };
 		18A032951D992304000BF6EA /* FImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A032941D992304000BF6EA /* FImagePreviewController.m */; };
 		18A032981D9926AF000BF6EA /* FImagePreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A032971D9926AF000BF6EA /* FImagePreviewCell.m */; };
+		18C15B051DB5BA9C0094D5ED /* FImagePickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18C15B041DB5BA9C0094D5ED /* FImagePickerController.bundle */; };
+		18C15B071DB5C1F40094D5ED /* takePicture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C15B061DB5C1F40094D5ED /* takePicture@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,8 @@
 		18A032941D992304000BF6EA /* FImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FImagePreviewController.m; sourceTree = "<group>"; };
 		18A032961D9926AF000BF6EA /* FImagePreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FImagePreviewCell.h; sourceTree = "<group>"; };
 		18A032971D9926AF000BF6EA /* FImagePreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FImagePreviewCell.m; sourceTree = "<group>"; };
+		18C15B041DB5BA9C0094D5ED /* FImagePickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FImagePickerController.bundle; sourceTree = "<group>"; };
+		18C15B061DB5C1F40094D5ED /* takePicture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "takePicture@2x.png"; path = "FImagePickerController/FImagePickerController.bundle/takePicture@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +112,7 @@
 		1812632C1D920E2B00E73E55 = {
 			isa = PBXGroup;
 			children = (
+				18C15B061DB5C1F40094D5ED /* takePicture@2x.png */,
 				181263371D920E2B00E73E55 /* FImagePickerController */,
 				181263511D920E2C00E73E55 /* FImagePickerControllerTests */,
 				1812635C1D920E2C00E73E55 /* FImagePickerControllerUITests */,
@@ -128,6 +133,7 @@
 		181263371D920E2B00E73E55 /* FImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
+				18C15B041DB5BA9C0094D5ED /* FImagePickerController.bundle */,
 				184923591D93C29A00AB5277 /* 1.jpg */,
 				1812636E1D920E7700E73E55 /* FImagePickerConfig.h */,
 				181263751D92261100E73E55 /* FImageManager.h */,
@@ -288,6 +294,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18C15B071DB5C1F40094D5ED /* takePicture@2x.png in Resources */,
+				18C15B051DB5BA9C0094D5ED /* FImagePickerController.bundle in Resources */,
 				1849235A1D93C29A00AB5277 /* 1.jpg in Resources */,
 				181263481D920E2B00E73E55 /* LaunchScreen.storyboard in Resources */,
 				181263451D920E2B00E73E55 /* Assets.xcassets in Resources */,

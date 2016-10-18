@@ -477,6 +477,28 @@ static CGFloat FScreenScale;
 }
 
 
+- (void)savePhotoWithImage:(UIImage *)image completion:(void (^)(NSError *))completion {
+    NSData *data = UIImageJPEGRepresentation(image, 0.9);
+    if (iOS9Later) {
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+            PHAssetResourceCreationOptions *option = [[PHAssetResourceCreationOptions alloc] init];
+            option.shouldMoveFile = YES;
+            [[PHAssetCreationRequest creationRequestForAsset] addResourceWithType:PHAssetResourceTypePhoto data:data options:option];
+        } completionHandler:^(BOOL success, NSError * _Nullable error) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if (success && completion) {
+                    completion(nil);
+                } else if (error) {
+                    NSLog(@"保存照片错误:%@",error.localizedDescription);
+                    if (completion) {
+                        completion(error);
+                    }
+                }
+            });
+        }];
+    }
+}
+
 - (BOOL)isCameraRollAibum:(NSString *)albumName {
     NSString *versionStr = [[UIDevice currentDevice].systemVersion stringByReplacingOccurrencesOfString:@"." withString:@""];
     if (versionStr.length <= 1) {
