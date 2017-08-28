@@ -366,6 +366,18 @@ static CGFloat FScreenScale;
 
 }
 
+- (BOOL)isAssetsArray:(NSArray *)assets containAsset:(id)asset {
+    if (iOS8Later) {
+        return [assets containsObject:asset];
+    } else {
+        NSMutableArray *selectedAssetUrls = [NSMutableArray array];
+        for (ALAsset *asset_item in assets) {
+            [selectedAssetUrls addObject:[asset_item valueForProperty:ALAssetPropertyURLs]];
+        }
+        return [selectedAssetUrls containsObject:[asset valueForProperty:ALAssetPropertyURLs]];
+    }
+}
+
 
 - (PHImageRequestID)getPhotoWithAsset:(id)asset completion:(void (^)(UIImage *, NSDictionary *, BOOL isDegraded))completion {
     

@@ -51,6 +51,8 @@
 
 - (NSString *)getAssetIdentifier:(id)asset;
 
+- (BOOL)isAssetsArray:(NSArray *)assets containAsset:(id)asset;
+
 /// Save photo 保存照片
 - (void)savePhotoWithImage:(UIImage *)image completion:(void (^)(NSError *error))completion;
 @end

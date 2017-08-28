@@ -70,13 +70,33 @@
 
 - (void)checkSelectedModels {
     
+    //这里有个大坑(第一次直接进入照片选择页面 和 从相册选择在进入照片选择页的时候 生成的assetModel是不一样的,需要做处理)
     FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
-    for (FAssetModel *selectedModel in FImagePickerVC.selectedAssetModels) {
+    
+    [FImagePickerVC.selectedAssetModels enumerateObjectsUsingBlock:^(FAssetModel * _Nonnull selectedModel, NSUInteger idx, BOOL * _Nonnull stop) {
         for (FAssetModel *model in _assetModels) {
-            NSString *selectedIdentifer = [(PHAsset *)selectedModel.asset localIdentifier];
-            NSString *localIdentifer = [(PHAsset *)model.asset localIdentifier];
+            NSString *selectedIdentifer = [[FImageManager manager] getAssetIdentifier:selectedModel.asset];
+            NSString *localIdentifer = [[FImageManager manager] getAssetIdentifier:model.asset];
             if ([selectedIdentifer isEqualToString:localIdentifer]) {
                 model.selectedIndex = selectedModel.selectedIndex;
+                model.selected = YES;
+                
+                [FImagePickerVC.selectedAssetModels replaceObjectAtIndex:idx withObject:model];
+                break;
+            }
+        }
+    }];
+    
+    
+    return;
+    
+    for (FAssetModel *selectedModel in FImagePickerVC.selectedAssetModels) {
+        for (FAssetModel *model in _assetModels) {
+            NSString *selectedIdentifer = [[FImageManager manager] getAssetIdentifier:selectedModel.asset];
+            NSString *localIdentifer = [[FImageManager manager] getAssetIdentifier:model.asset];
+            if ([selectedIdentifer isEqualToString:localIdentifer]) {
+                model.selectedIndex = selectedModel.selectedIndex;
+                model.selected = YES;
             }
         }
     }
@@ -355,6 +375,7 @@
         NSInteger index = model.selectedIndex;
         model.selected = NO;
         [FImagePickerVC.selectedAssetModels removeObject:model];
+        
         [self changeSlectedButtonNumber:button WithModel:model];
         NSArray *selectedModels = [NSArray arrayWithArray:FImagePickerVC.selectedAssetModels];
         for (FAssetModel *model_item in selectedModels) {

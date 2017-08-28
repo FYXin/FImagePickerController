@@ -18,6 +18,13 @@
     }
 }
 
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
+    _selectedIndex = selectedIndex;
+    if (_selectedIndex > 0) {
+        _selected = YES;
+    }
+}
+
 
 + (instancetype)modelWithAsset:(id)asset type:(FAssetModelMediaType)type {
     FAssetModel *model = [[FAssetModel alloc] init];
