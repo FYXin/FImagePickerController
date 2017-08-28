@@ -152,7 +152,7 @@
     _okButton.titleLabel.font = [UIFont systemFontOfSize:15];
     _okButton.layer.cornerRadius = 3;
     
-    [_okButton addTarget:self action:@selector(okButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    [_okButton addTarget:self action:@selector(previewOKButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [_okButton setTitle:@"完成" forState:UIControlStateNormal];
     [_okButton setTitle:@"完成" forState:UIControlStateDisabled];
     [_okButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -192,18 +192,66 @@
     }
 }
 
-- (void)okButtonClick {
-
+- (void)previewOKButtonClick {
+    
+    FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
+    
+    NSMutableArray *photos = [NSMutableArray array];
+    NSMutableArray *assets = [NSMutableArray array];
+    NSMutableArray *infoArr = [NSMutableArray array];
+    
+    for (NSInteger i = 0; i < FImagePickerVC.selectedAssetModels.count; i++) {
+        [photos addObject:@1];
+        [assets addObject:@1];
+        [infoArr addObject:@1];
+    }
+    
+    
+    for (NSInteger i = 0; i < FImagePickerVC.selectedAssetModels.count; i++) {
+        
+        FAssetModel *model = FImagePickerVC.selectedAssetModels[i];
+        [[FImageManager manager] getPhotoWithAsset:model.asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+            if (isDegraded) return ;
+            if (photo) {
+                [photos replaceObjectAtIndex:i withObject:photo];
+            }
+            
+            if (info) {
+                [infoArr replaceObjectAtIndex:i withObject:info];
+                [assets replaceObjectAtIndex:i withObject:model.asset];
+            }
+            
+            for (id item in photos) {
+                if ([item isKindOfClass:[NSNumber class]]) {
+                    return;
+                }
+            }
+            
+            
+            if ([FImagePickerVC.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingPhotos:sourceAssets:)]) {
+                [FImagePickerVC.pickerDelegate imagePickerController:FImagePickerVC didFinishPickingPhotos:photos sourceAssets:assets];
+                
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                return;
+            }
+            
+            if ([FImagePickerVC.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingPhotos:sourceAssets: isSelectOriginalPhoto:infos:)]) {
+                [FImagePickerVC.pickerDelegate imagePickerController:FImagePickerVC didFinishPickingPhotos:photos sourceAssets:assets isSelectOriginalPhoto:FImagePickerVC.isSelectOriginalPhoto infos:infoArr];
+                
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                return;
+            }
+        }];
+    }
 }
 
 - (void)selectedButtonClick:(UIButton *)button {
     FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
     
-    
     FAssetModel *model = _models[_currentIndex];
-    if (model.isSeledted) {
+    if (model.selectedIndex > 0) {
         NSInteger index = model.selectedIndex;
-        model.isSeledted = NO;
+        model.selectedIndex = 0;
         [FImagePickerVC.selectedAssetModels removeObject:model];
 
         NSArray *selectedModels = [NSArray arrayWithArray:FImagePickerVC.selectedAssetModels];
@@ -214,7 +262,6 @@
         }
         
     } else {
-        model.isSeledted = YES;
         model.selectedIndex = FImagePickerVC.selectedAssetModels.count + 1;
         [FImagePickerVC.selectedAssetModels addObject:model];
     }
@@ -232,7 +279,7 @@
     _indexLabel.text = [NSString stringWithFormat:@"%zd/%zd",_currentIndex+1,_models.count];
     
     FAssetModel *model = _models[_currentIndex];
-    if (model.isSeledted) {
+    if (model.isSelected) {
         _selectedButton.selected = YES;
         [_selectedButton setTitle:[NSString stringWithFormat:@"%zd",model.selectedIndex] forState:UIControlStateSelected];
         _selectedButton.backgroundColor = MainColorForSelected;
@@ -292,6 +339,10 @@
         [[UIApplication sharedApplication] setStatusBarHidden:_customNavView.hidden];
     };
     return cell;
+}
+
+- (void)dealloc {
+    NSLog(@"%@销毁",NSStringFromClass([self class]));
 }
 
 @end

@@ -14,12 +14,20 @@
 
 
 @interface FAssetCell ()
-
+/// ImageView
 @property (nonatomic,weak) UIImageView *imageView;
 @property (nonatomic,weak) UIImageView *selectImageView;
-@property (nonatomic,weak) UIButton *selectPhotoButton;;
+
+///选择按钮
+@property (nonatomic,weak) UIButton *selectPhotoButton;
+
+///当cell盛放的类型是视频的时候(底部的View)
 @property (nonatomic,weak) UIView *bottomView;
-@property (nonatomic,weak) UIImageView *iconImageView;
+
+
+@property (nonatomic,weak) UIImageView *videoIconImageView;
+
+///BottomView 上的时间长度的Label
 @property (nonatomic,weak) UILabel *timeLengthLabel;
 
 @end
@@ -54,9 +62,9 @@
     selectedButton.backgroundColor = [UIColor clearColor];
     [selectedButton addTarget:self action:@selector(selectedPhotoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    
     [self.contentView addSubview:selectedButton];
     _selectPhotoButton = selectedButton;
+    
 }
 
 
@@ -79,8 +87,8 @@
         [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
     }
     self.imageRequestID = imageRequestID;
-    self.selectPhotoButton.selected = _assetModel.isSeledted;
-    self.selectImageView.image = _assetModel.isSeledted ? [UIImage imageNamed:PhotoSelectedImageName] : [UIImage imageNamed:PhotoNornalImageName];
+//    self.selectPhotoButton.selected = _assetModel.seledted;
+//    self.selectImageView.image = _assetModel.seledted ? [UIImage imageNamed:PhotoSelectedImageName] : [UIImage imageNamed:PhotoNornalImageName];
     self.type = FAssetCellMediaTypePhoto;
     if (assetModel.type == FAssetModelMediaTypeLivePhoto) {
         self.type = FAssetCellMediaTypeLivePhoto;
@@ -94,7 +102,7 @@
 
 - (void)cinfigSelectedButton {
     _selectPhotoButton.hidden = NO;
-    if (_assetModel.isSeledted && _assetModel.selectedIndex > 0) {
+    if (_assetModel.selectedIndex > 0) {
         [_selectPhotoButton setTitle:[NSString stringWithFormat:@"%zd",_assetModel.selectedIndex] forState:UIControlStateNormal];
         _selectPhotoButton.backgroundColor = [UIColor colorWithRed:46/255.0 green:178/255.0 blue:242/255.0 alpha:1];
     } else {
@@ -107,6 +115,38 @@
   
     button.selected = !button.isSelected;
     if (self.didSelectedPhotoBlock) self.didSelectedPhotoBlock(button.isSelected,button);
+}
+
+
+- (void)setType:(FAssetCellMediaType)type {
+    _type = type;
+    switch (type) {
+        case FAssetCellMediaTypePhoto:
+        {
+            _selectPhotoButton.hidden = NO;
+            self.bottomView.hidden = YES;
+        }
+            break;
+        case FAssetCellMediaTypeLivePhoto:
+        {
+            
+        }
+            break;
+        case FAssetCellMediaTypeVideo:
+        {
+            _selectPhotoButton.hidden = YES;
+            self.bottomView.hidden = NO;
+            self.timeLengthLabel.text = _assetModel.timeLength;
+            self.timeLengthLabel.textAlignment = NSTextAlignmentRight;
+        }
+            break;
+        case FAssetCellMediaTypeAudio:
+        {
+            
+        }
+            break;
+            
+    }
 }
 
 
@@ -148,14 +188,14 @@
 }
 
 - (UIImageView *)iconImageView {
-    if (_iconImageView == nil) {
+    if (_videoIconImageView == nil) {
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.frame = CGRectMake(8, 0, 17, 17);
-        imageView.backgroundColor = [UIColor redColor];
+        imageView.image = [UIImage imageNamed:@"VideoSendIcon.png"];
         [self.bottomView addSubview:imageView];
-        _iconImageView = imageView;
+        _videoIconImageView = imageView;
     }
-    return _iconImageView;
+    return _videoIconImageView;
 }
 
 - (UILabel *)timeLengthLabel {
@@ -173,6 +213,10 @@
 
 @end
 
+
+
+
+#pragma mark - FAlbumCell(相册封面cell)
 
 @interface FAlbumCell ()
 

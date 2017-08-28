@@ -45,7 +45,7 @@
 @property (nonatomic,assign) BOOL allowTakePhoto;
 
 
-//选择图片后是否允许自动消失
+//选择图片后是否允许自动消失,默认为YES
 @property (nonatomic,assign) BOOL autoDismiss;
 
 @property (nonatomic,strong) NSMutableArray<FAssetModel *> *selectedAssetModels;

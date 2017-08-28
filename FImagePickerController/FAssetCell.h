@@ -21,8 +21,8 @@ typedef  NS_ENUM(NSUInteger,FAssetCellMediaType) {
 
 @property (nonatomic,strong) FAssetModel *assetModel;
 @property (nonatomic,assign) FAssetCellMediaType type;
-@property (nonatomic,copy)   NSString *representedAssetIdentifier;
-@property (nonatomic,assign)   PHImageRequestID imageRequestID;
+@property (nonatomic,  copy) NSString *representedAssetIdentifier;
+@property (nonatomic,assign) PHImageRequestID imageRequestID;
  
 
 @property (nonatomic,copy) void (^didSelectedPhotoBlock)(BOOL,UIButton *);

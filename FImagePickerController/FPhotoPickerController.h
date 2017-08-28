@@ -11,7 +11,7 @@
 @class FAlbumModel;
 
 @interface FPhotoPickerController : UIViewController
-
+/**每行展示的照片数量*/
 @property (nonatomic,assign) NSInteger columnNumber;
 @property (nonatomic,strong) FAlbumModel *albumModel;
 

@@ -21,11 +21,15 @@
 		1812637A1D9226CA00E73E55 /* FAssetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181263791D9226CA00E73E55 /* FAssetModel.m */; };
 		184923551D936AB000AB5277 /* FPhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184923541D936AB000AB5277 /* FPhotoPickerController.m */; };
 		184923581D93BAD500AB5277 /* FAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184923571D93BAD500AB5277 /* FAssetCell.m */; };
-		1849235A1D93C29A00AB5277 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 184923591D93C29A00AB5277 /* 1.jpg */; };
 		18A032951D992304000BF6EA /* FImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A032941D992304000BF6EA /* FImagePreviewController.m */; };
 		18A032981D9926AF000BF6EA /* FImagePreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A032971D9926AF000BF6EA /* FImagePreviewCell.m */; };
-		18C15B051DB5BA9C0094D5ED /* FImagePickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18C15B041DB5BA9C0094D5ED /* FImagePickerController.bundle */; };
-		18C15B071DB5C1F40094D5ED /* takePicture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C15B061DB5C1F40094D5ED /* takePicture@2x.png */; };
+		8EEEC4231F53EFD1008C60CB /* VideoSendIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EEEC4221F53EFD1008C60CB /* VideoSendIcon@2x.png */; };
+		8EFF22B51F29EADD008648A1 /* MMVideoPreviewPlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EFF22B21F29EADD008648A1 /* MMVideoPreviewPlay@2x.png */; };
+		8EFF22B61F29EADD008648A1 /* MMVideoPreviewPlayHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EFF22B31F29EADD008648A1 /* MMVideoPreviewPlayHL@2x.png */; };
+		8EFF22B71F29EADD008648A1 /* navi_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EFF22B41F29EADD008648A1 /* navi_back@2x.png */; };
+		8EFF22BA1F29EAF4008648A1 /* TableViewArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EFF22B81F29EAF4008648A1 /* TableViewArrow@2x.png */; };
+		8EFF22BB1F29EAF4008648A1 /* takePicture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EFF22B91F29EAF4008648A1 /* takePicture@2x.png */; };
+		8EFF22BE1F29EB57008648A1 /* FVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFF22BD1F29EB57008648A1 /* FVideoPlayViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,13 +79,18 @@
 		184923541D936AB000AB5277 /* FPhotoPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPhotoPickerController.m; sourceTree = "<group>"; };
 		184923561D93BAD500AB5277 /* FAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAssetCell.h; sourceTree = "<group>"; };
 		184923571D93BAD500AB5277 /* FAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAssetCell.m; sourceTree = "<group>"; };
-		184923591D93C29A00AB5277 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
 		18A032931D992304000BF6EA /* FImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FImagePreviewController.h; sourceTree = "<group>"; };
 		18A032941D992304000BF6EA /* FImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FImagePreviewController.m; sourceTree = "<group>"; };
 		18A032961D9926AF000BF6EA /* FImagePreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FImagePreviewCell.h; sourceTree = "<group>"; };
 		18A032971D9926AF000BF6EA /* FImagePreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FImagePreviewCell.m; sourceTree = "<group>"; };
-		18C15B041DB5BA9C0094D5ED /* FImagePickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FImagePickerController.bundle; sourceTree = "<group>"; };
-		18C15B061DB5C1F40094D5ED /* takePicture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "takePicture@2x.png"; path = "FImagePickerController/FImagePickerController.bundle/takePicture@2x.png"; sourceTree = "<group>"; };
+		8EEEC4221F53EFD1008C60CB /* VideoSendIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VideoSendIcon@2x.png"; sourceTree = "<group>"; };
+		8EFF22B21F29EADD008648A1 /* MMVideoPreviewPlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MMVideoPreviewPlay@2x.png"; sourceTree = "<group>"; };
+		8EFF22B31F29EADD008648A1 /* MMVideoPreviewPlayHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MMVideoPreviewPlayHL@2x.png"; sourceTree = "<group>"; };
+		8EFF22B41F29EADD008648A1 /* navi_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navi_back@2x.png"; sourceTree = "<group>"; };
+		8EFF22B81F29EAF4008648A1 /* TableViewArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TableViewArrow@2x.png"; sourceTree = "<group>"; };
+		8EFF22B91F29EAF4008648A1 /* takePicture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "takePicture@2x.png"; sourceTree = "<group>"; };
+		8EFF22BC1F29EB57008648A1 /* FVideoPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FVideoPlayViewController.h; sourceTree = "<group>"; };
+		8EFF22BD1F29EB57008648A1 /* FVideoPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FVideoPlayViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +121,6 @@
 		1812632C1D920E2B00E73E55 = {
 			isa = PBXGroup;
 			children = (
-				18C15B061DB5C1F40094D5ED /* takePicture@2x.png */,
 				181263371D920E2B00E73E55 /* FImagePickerController */,
 				181263511D920E2C00E73E55 /* FImagePickerControllerTests */,
 				1812635C1D920E2C00E73E55 /* FImagePickerControllerUITests */,
@@ -133,8 +141,12 @@
 		181263371D920E2B00E73E55 /* FImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
-				18C15B041DB5BA9C0094D5ED /* FImagePickerController.bundle */,
-				184923591D93C29A00AB5277 /* 1.jpg */,
+				8EFF22B81F29EAF4008648A1 /* TableViewArrow@2x.png */,
+				8EFF22B91F29EAF4008648A1 /* takePicture@2x.png */,
+				8EFF22B21F29EADD008648A1 /* MMVideoPreviewPlay@2x.png */,
+				8EFF22B31F29EADD008648A1 /* MMVideoPreviewPlayHL@2x.png */,
+				8EFF22B41F29EADD008648A1 /* navi_back@2x.png */,
+				8EEEC4221F53EFD1008C60CB /* VideoSendIcon@2x.png */,
 				1812636E1D920E7700E73E55 /* FImagePickerConfig.h */,
 				181263751D92261100E73E55 /* FImageManager.h */,
 				181263761D92261100E73E55 /* FImageManager.m */,
@@ -148,6 +160,8 @@
 				18A032941D992304000BF6EA /* FImagePreviewController.m */,
 				18A032961D9926AF000BF6EA /* FImagePreviewCell.h */,
 				18A032971D9926AF000BF6EA /* FImagePreviewCell.m */,
+				8EFF22BC1F29EB57008648A1 /* FVideoPlayViewController.h */,
+				8EFF22BD1F29EB57008648A1 /* FVideoPlayViewController.m */,
 				184923561D93BAD500AB5277 /* FAssetCell.h */,
 				184923571D93BAD500AB5277 /* FAssetCell.m */,
 				181263781D9226CA00E73E55 /* FAssetModel.h */,
@@ -258,6 +272,8 @@
 				TargetAttributes = {
 					181263341D920E2B00E73E55 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 98RU249928;
+						ProvisioningStyle = Automatic;
 					};
 					1812634D1D920E2C00E73E55 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -294,11 +310,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18C15B071DB5C1F40094D5ED /* takePicture@2x.png in Resources */,
-				18C15B051DB5BA9C0094D5ED /* FImagePickerController.bundle in Resources */,
-				1849235A1D93C29A00AB5277 /* 1.jpg in Resources */,
+				8EFF22B51F29EADD008648A1 /* MMVideoPreviewPlay@2x.png in Resources */,
+				8EFF22B71F29EADD008648A1 /* navi_back@2x.png in Resources */,
+				8EFF22BB1F29EAF4008648A1 /* takePicture@2x.png in Resources */,
+				8EFF22BA1F29EAF4008648A1 /* TableViewArrow@2x.png in Resources */,
+				8EEEC4231F53EFD1008C60CB /* VideoSendIcon@2x.png in Resources */,
 				181263481D920E2B00E73E55 /* LaunchScreen.storyboard in Resources */,
 				181263451D920E2B00E73E55 /* Assets.xcassets in Resources */,
+				8EFF22B61F29EADD008648A1 /* MMVideoPreviewPlayHL@2x.png in Resources */,
 				181263431D920E2B00E73E55 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,6 +346,7 @@
 				1812636D1D920E5200E73E55 /* UIView+frame.m in Sources */,
 				181263401D920E2B00E73E55 /* ViewController.m in Sources */,
 				181263771D92261100E73E55 /* FImageManager.m in Sources */,
+				8EFF22BE1F29EB57008648A1 /* FVideoPlayViewController.m in Sources */,
 				18A032951D992304000BF6EA /* FImagePreviewController.m in Sources */,
 				1812637A1D9226CA00E73E55 /* FAssetModel.m in Sources */,
 				1812633D1D920E2B00E73E55 /* AppDelegate.m in Sources */,
@@ -476,12 +496,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: XiangLi Liu (VRK7WH8E2H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 98RU249928;
 				INFOPLIST_FILE = FImagePickerController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FImagePickerController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "527b9f6c-22c9-4c69-a935-051c7a699d10";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -490,12 +513,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: XiangLi Liu (VRK7WH8E2H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 98RU249928;
 				INFOPLIST_FILE = FImagePickerController/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FImagePickerController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "527b9f6c-22c9-4c69-a935-051c7a699d10";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

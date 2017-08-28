@@ -22,16 +22,17 @@ typedef  NS_ENUM(NSUInteger,FAssetModelMediaType) {
 // <PHAsset  或者 ALAsset>
 @property (nonatomic,strong) id asset;
 
-/*
- * 是否被选中
+
+/**
+ 元素是否被选中
  */
-
-@property (nonatomic,assign) BOOL isSeledted;
+@property(nonatomic,getter=isSelected) BOOL selected; 
 
 /*
- * 表示被选中的顺序，用来做标记
+ * 表示被选中的顺序，用来做标记,若为 0 则表示没有被选中(从 1 开始)
  */
 @property (nonatomic,assign) NSInteger selectedIndex;
+
 
 @property (nonatomic,assign) FAssetModelMediaType type;
 
@@ -54,6 +55,7 @@ typedef  NS_ENUM(NSUInteger,FAssetModelMediaType) {
 
 @class PHFetchResult;
 
+/**相册Model*/
 @interface FAlbumModel : NSObject
 
 //相册名称

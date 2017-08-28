@@ -187,9 +187,11 @@
     }];
 }
 
+- (void)dealloc {
+    NSLog(@"%@销毁",NSStringFromClass([self class]));
+}
+
 @end
-
-
 
 
 @interface FAlbumPickerController ()<UITableViewDelegate,UITableViewDataSource>
@@ -257,8 +259,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+
+- (void)dealloc {
+    NSLog(@"%@销毁",NSStringFromClass([self class]));
+}
 @end
-
-
-
-

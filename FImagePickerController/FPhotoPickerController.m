@@ -31,6 +31,7 @@
 
 //系统相机
 @property (nonatomic,strong) UIImagePickerController *imagePickerVC;
+
 @end
 
 @implementation FPhotoPickerController
@@ -40,9 +41,7 @@
         _imagePickerVC.delegate = self;
         _imagePickerVC.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
         _imagePickerVC.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
-    
-    
-    
+
     }
     return _imagePickerVC;
 }
@@ -70,10 +69,16 @@
 }
 
 - (void)checkSelectedModels {
-    for (FAssetModel *model in _assetModels) {
-        NSMutableArray *selectedModels = [NSMutableArray array];
-        FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
-        
+    
+    FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
+    for (FAssetModel *selectedModel in FImagePickerVC.selectedAssetModels) {
+        for (FAssetModel *model in _assetModels) {
+            NSString *selectedIdentifer = [(PHAsset *)selectedModel.asset localIdentifier];
+            NSString *localIdentifer = [(PHAsset *)model.asset localIdentifier];
+            if ([selectedIdentifer isEqualToString:localIdentifer]) {
+                model.selectedIndex = selectedModel.selectedIndex;
+            }
+        }
     }
 }
 
@@ -96,6 +101,7 @@
     _collectionView.contentInset = UIEdgeInsetsMake(margin, margin, margin, margin);
     [self.view addSubview:_collectionView];
     [_collectionView registerClass:[FAssetCell class] forCellWithReuseIdentifier:@"FAssetCell"];
+    [_collectionView reloadData];
 }
 
 - (void)configBottomToolBar {
@@ -332,10 +338,10 @@
 - (void)changeSelectedButton:(UIButton *)button WithModel:(FAssetModel *)model {
     FImagePickerController *FImagePickerVC = (FImagePickerController *)self.navigationController;
     
-    if (button.isSelected) {
+    if (model.isSelected == NO) {//选中操作(在cell中已经对cell的button进行了处理)
         if (FImagePickerVC.selectedAssetModels.count < FImagePickerVC.maxImagesCount) {
-             model.isSeledted = YES;
             model.selectedIndex = FImagePickerVC.selectedAssetModels.count + 1;
+            model.selected = YES;
             [FImagePickerVC.selectedAssetModels addObject:model];
             [self changeSlectedButtonNumber:button WithModel:model];
             [self refreshBottomToolBar];
@@ -345,9 +351,9 @@
             [self showAlertWithTitle:title];
             return;
         }
-    } else {
+    } else { //取消选中
         NSInteger index = model.selectedIndex;
-        model.isSeledted = NO;
+        model.selected = NO;
         [FImagePickerVC.selectedAssetModels removeObject:model];
         [self changeSlectedButtonNumber:button WithModel:model];
         NSArray *selectedModels = [NSArray arrayWithArray:FImagePickerVC.selectedAssetModels];
@@ -411,7 +417,38 @@
 }
 
 
+// 拍照按钮点击事件
 - (void)takePhoto {
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+    if (authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied) {
+        NSLog(@"没有相机权限");
+        
+        NSString *appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleDisplayName"];
+        if (!appName) {
+            appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleName"];
+        }
+        NSString *message = [NSString stringWithFormat:@"请允许 %@ 访问您的相机 在 设置->隐私->相机",appName];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"警告" message:message delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+        [alert show];
+    } else if (authStatus == AVAuthorizationStatusNotDetermined) {
+        if (iOS7Later) {
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                if (granted) {
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [self pushTakePhotoVC];
+                    });
+                }
+            }];
+        } else {
+            [self pushTakePhotoVC];
+        }
+    } else {
+        [self pushTakePhotoVC];
+    }
+    
+}
+
+- (void)pushTakePhotoVC {
     UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypeCamera;
     if ([UIImagePickerController isSourceTypeAvailable:type]) {
         self.imagePickerVC.sourceType = type;
@@ -419,6 +456,8 @@
             _imagePickerVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         }
         [self presentViewController:_imagePickerVC animated:YES completion:nil];
+    } else {
+        NSLog(@"模拟器中无法发开相机");
     }
 }
 
@@ -436,9 +475,16 @@
         
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         [[FImageManager manager] savePhotoWithImage:image completion:^(NSError *error) {
-            
+            if (error == nil) {
+                
+            }
         }];
     }
+}
+
+
+- (void)dealloc {
+    NSLog(@"FPhotoPickerController销毁");
 }
 
 @end

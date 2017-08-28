@@ -11,18 +11,19 @@
 
 @implementation FAssetModel
 
-- (void)setIsSeledted:(BOOL)isSeledted {
-    _isSeledted = isSeledted;
-    if (_isSeledted == NO) {
+- (void)setSelected:(BOOL)selected {
+    _selected = selected;
+    if (_selected == NO) {
         _selectedIndex = 0;
     }
 }
+
 
 + (instancetype)modelWithAsset:(id)asset type:(FAssetModelMediaType)type {
     FAssetModel *model = [[FAssetModel alloc] init];
     model.asset = asset;
     model.type = type;
-    model.isSeledted = NO;
+    model.selected = NO;
     
     return model;
 }
